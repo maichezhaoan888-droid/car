@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>繃安｜車貸資質精算系統 2.0</title>
     
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TX222NQ7WF"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TXBZ7MQTWE"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-TX222NQ7WF');
+      gtag('config', 'G-TXBZ7MQTWE');
     </script>
 
     <style>
@@ -27,7 +27,6 @@
         .price-display { font-size: 38px; font-weight: bold; margin: 10px 0; }
         .contact-area { margin-top: 25px; border-top: 1px solid #333; padding-top: 20px; text-align: center; }
         .linktree-btn { display: block; background: linear-gradient(45deg, #00B900, #00E600); color: white; text-align: center; padding: 16px; border-radius: 12px; text-decoration: none; font-weight: bold; margin-top: 15px; font-size: 16px; }
-        .disclaimer { font-size: 11px; color: #666; margin-top: 20px; line-height: 1.5; }
     </style>
 </head>
 <body>
@@ -39,9 +38,9 @@
     </div>
 
     <label>總車價 (萬元)</label>
-    <input type="number" id="totalPrice" placeholder="例如: 88">
+    <input type="number" id="totalPrice" placeholder="例如: 100">
     <label>頭期款 (萬元)</label>
-    <input type="number" id="downPayment" value="10">
+    <input type="number" id="downPayment" value="20">
     <label>您的月收入 (元)</label>
     <input type="number" id="monthlyIncome" placeholder="影響銀行收支比判定">
 
@@ -68,11 +67,9 @@
         <div id="monthlyPay" class="price-display">$0</div>
         <div id="advisorNote" style="font-size: 15px; margin: 15px 0; line-height: 1.6; color: #EEE;"></div>
         
-        <div class="disclaimer">* 利率及額度僅供參考，實際以銀行最終核貸結果為準。</div>
-
         <div class="contact-area">
             <p style="font-size: 14px; color: var(--gold);">測完資質有問題？點下方找繃安諮詢</p>
-            <a href="https://linktr.ee/maichezhaoan888" target="_blank" class="linktree-btn" onclick="gtag('event', 'click_consult', {'event_category': 'conversion'});">
+            <a href="https://linktr.ee/maichezhaoan888" target="_blank" class="linktree-btn" onclick="gtag('event', 'click_consult');">
                 聯繫繃安｜領取專屬方案
             </a>
         </div>
@@ -87,7 +84,7 @@
         const years = parseInt(document.getElementById('loanYears').value);
         const annualRate = parseFloat(document.getElementById('creditStatus').value) / 100;
 
-        if (!price || !income) { alert('請填寫完整數據'); return; }
+        if (!price || !income) { alert('請填寫完整金額數據'); return; }
 
         const loanAmount = price - down;
         const monthlyRate = annualRate / 12;
@@ -96,26 +93,23 @@
         const ratio = monthlyPay / income;
 
         document.getElementById('monthlyPay').innerText = '$' + monthlyPay.toLocaleString();
+
+        // GA4 事件發送
         gtag('event', 'calculate_loan', { 'value': price/10000, 'loan_ratio': ratio.toFixed(2) });
 
         const badge = document.getElementById('badge');
         const note = document.getElementById('advisorNote');
 
+        // 精準顏色邏輯
         if (ratio <= 0.2) {
-            badge.innerText = "優質資質：金色推薦"; 
-            badge.style.background = "var(--gold)";
-            badge.style.color = "black";
-            note.innerHTML = "您的收支比表現完美。<strong>恭喜解鎖「繃安金牌方案」</strong>，可挑戰最低利或全額貸！";
+            badge.innerText = "優質資質：金色推薦"; badge.style.background = "var(--gold)"; badge.style.color = "black";
+            note.innerHTML = "資質極佳！屬銀行優質客戶。<strong>建議挑戰更低利或免頭期方案！</strong>";
         } else if (ratio <= 0.45) {
-            badge.innerText = "安全資質：綠色過件"; 
-            badge.style.background = "var(--green)";
-            badge.style.color = "white";
-            note.innerHTML = "目前處於安全範圍。建議準備好薪轉證明，點下方聯繫繃安<strong>確保 100% 過件</strong>。";
+            badge.innerText = "安全資質：綠色過件"; badge.style.background = "var(--green)"; badge.style.color = "white";
+            note.innerHTML = "收支比平衡，銀行過件機率大。點下方聯繫繃安<strong>確保 100% 過件</strong>。";
         } else {
-            badge.innerText = "資質警繃：紅色警戒"; 
-            badge.style.background = "var(--red)";
-            badge.style.color = "white";
-            note.innerHTML = "還款壓力已達警戒線！<strong>直接送件極易被退件</strong>。請立即找繃安進行專業資質優化。";
+            badge.innerText = "資質警繃：紅色警戒"; badge.style.background = "var(--red)"; badge.style.color = "white";
+            note.innerHTML = "負債比偏高，銀行容易退件。<strong>強烈建議點擊下方聯繫繃安</strong>，由專業端處理。";
         }
         document.getElementById('result').style.display = 'block';
     }
