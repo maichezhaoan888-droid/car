@@ -48,7 +48,9 @@
     <label>分期年限</label>
     <select id="loanYears">
         <option value="5">5年 (60期)</option>
+        <option value="6">6年 (72期)</option>
         <option value="7" selected>7年 (84期)</option>
+        <option value="8">8年 (96期)</option>
     </select>
 
     <label>資質條件</label>
@@ -94,14 +96,11 @@
         const ratio = monthlyPay / income;
 
         document.getElementById('monthlyPay').innerText = '$' + monthlyPay.toLocaleString();
-
-        // GA4 事件發送
         gtag('event', 'calculate_loan', { 'value': price/10000, 'loan_ratio': ratio.toFixed(2) });
 
         const badge = document.getElementById('badge');
         const note = document.getElementById('advisorNote');
 
-        // 嚴格分級邏輯
         if (ratio <= 0.2) {
             badge.innerText = "優質資質：金色推薦"; 
             badge.style.background = "var(--gold)";
