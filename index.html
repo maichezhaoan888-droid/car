@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>繃安｜銀行端貸款資質試算系統</title>
+    <title>買車找安｜銀行端貸款資質精算系統</title>
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TXBZ7MQTWE"></script>
     <script>
@@ -15,17 +15,19 @@
 
     <style>
         :root { 
-            --premium-gold: #C5A059; 
-            --safe-green: #43A047; 
-            --warn-red: #E53935; 
-            --bg-deep: #0F0F0F; 
-            --card-surface: #1A1A1A;
-            --input-border: #333;
+            --accent-gold: #B8860B; 
+            --safe-green: #2E7D32; 
+            --warn-red: #D32F2F; 
+            --bg-white: #F8F9FA; 
+            --card-white: #FFFFFF;
+            --text-main: #212529;
+            --text-sub: #6C757D;
+            --border-color: #DEE2E6;
         }
         body { 
             font-family: 'Inter', 'PingFang TC', 'Microsoft JhengHei', sans-serif; 
-            background-color: var(--bg-deep); 
-            color: #E0E0E0; 
+            background-color: var(--bg-white); 
+            color: var(--text-main); 
             margin: 0; 
             padding: 20px; 
             display: flex; 
@@ -35,116 +37,111 @@
         .container { 
             max-width: 440px; 
             width: 100%; 
-            background: var(--card-surface); 
+            background: var(--card-white); 
             padding: 40px 30px; 
-            border-radius: 24px; 
-            border: 1px solid rgba(255,255,255,0.05);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8); 
+            border-radius: 16px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+            border: 1px solid var(--border-color);
         }
-        .header { text-align: center; margin-bottom: 35px; }
+        .header { text-align: center; margin-bottom: 35px; border-bottom: 2px solid var(--accent-gold); padding-bottom: 15px; }
         .header h1 { 
-            color: var(--premium-gold); 
-            font-size: 22px; 
-            font-weight: 700;
+            color: var(--text-main); 
+            font-size: 24px; 
+            font-weight: 800;
             margin: 0; 
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        .header p { font-size: 12px; color: #666; margin-top: 8px; letter-spacing: 1px; }
+        .header p { font-size: 13px; color: var(--text-sub); margin-top: 5px; font-weight: 500; }
         
-        .form-group { margin-bottom: 20px; }
+        .form-group { margin-bottom: 18px; }
         label { 
             display: block; 
-            margin-bottom: 8px; 
-            color: #999; 
-            font-size: 13px; 
-            font-weight: 600;
-            letter-spacing: 0.5px;
+            margin-bottom: 6px; 
+            color: var(--text-main); 
+            font-size: 14px; 
+            font-weight: 700;
         }
         input, select { 
             width: 100%; 
-            padding: 15px; 
-            background: #252525; 
-            border: 1px solid var(--input-border); 
-            color: white; 
-            border-radius: 12px; 
+            padding: 12px 15px; 
+            background: #FFFFFF; 
+            border: 1px solid var(--border-color); 
+            color: var(--text-main); 
+            border-radius: 8px; 
             box-sizing: border-box; 
             font-size: 15px;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
-        input:focus { border-color: var(--premium-gold); outline: none; background: #2A2A2A; }
+        input:focus, select:focus { border-color: var(--accent-gold); outline: none; box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.1); }
         
         .btn-calc { 
             width: 100%; 
-            padding: 18px; 
-            background: linear-gradient(135deg, #C5A059 0%, #A67C37 100%);
-            color: #000; 
-            font-weight: 800; 
+            padding: 16px; 
+            background: var(--text-main);
+            color: #FFFFFF; 
+            font-weight: 700; 
             border: none; 
-            border-radius: 12px; 
+            border-radius: 8px; 
             cursor: pointer; 
             font-size: 16px; 
-            letter-spacing: 1px;
             margin-top: 10px;
             transition: 0.3s;
         }
-        .btn-calc:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        .btn-calc:hover { background: #000000; }
 
         .result-card { 
             display: none; 
-            margin-top: 30px; 
-            padding: 30px; 
-            border-radius: 16px; 
-            background: rgba(255,255,255,0.02); 
-            border: 1px solid #333; 
+            margin-top: 25px; 
+            padding: 25px; 
+            border-radius: 12px; 
+            background: #F1F3F5; 
             text-align: center;
-            animation: fadeIn 0.5s ease;
+            animation: slideIn 0.4s ease-out;
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         .status-badge { 
             display: inline-block; 
-            padding: 5px 25px; 
+            padding: 4px 16px; 
             border-radius: 4px; 
             font-weight: 800; 
             font-size: 12px; 
-            margin-bottom: 20px;
-            letter-spacing: 1px;
+            margin-bottom: 15px;
+            color: #FFF;
         }
-        .price-display { font-size: 40px; font-weight: 800; margin: 5px 0; color: white; font-family: 'Arial', sans-serif; }
-        .advisor-note { font-size: 14px; margin: 20px 0; line-height: 1.8; color: #BBB; }
+        .price-display { font-size: 42px; font-weight: 800; margin: 5px 0; color: var(--text-main); font-family: 'Arial', sans-serif; }
+        .advisor-note { font-size: 14px; margin: 15px 0; line-height: 1.7; color: #495057; }
         
         .disclaimer-box { 
-            font-size: 10px; 
-            color: #555; 
+            font-size: 11px; 
+            color: #adb5bd; 
             margin-top: 25px; 
-            padding: 15px; 
-            border-top: 1px dotted #333; 
+            padding-top: 15px; 
+            border-top: 1px solid var(--border-color); 
             line-height: 1.6; 
             text-align: left;
         }
         .linktree-btn { 
             display: block; 
-            background: transparent; 
-            color: var(--premium-gold); 
+            background: var(--accent-gold); 
+            color: #FFF; 
             text-align: center; 
-            padding: 15px; 
-            border-radius: 12px; 
+            padding: 14px; 
+            border-radius: 8px; 
             text-decoration: none; 
             font-weight: 700; 
             font-size: 15px; 
-            border: 1px solid var(--premium-gold);
             transition: 0.3s;
         }
-        .linktree-btn:hover { background: var(--premium-gold); color: black; }
+        .linktree-btn:hover { filter: brightness(1.1); }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <h1>BENG AN ACTUARY</h1>
-        <p>銀行端車貸收支比模擬系統</p>
+        <h1>買車找安</h1>
+        <p>銀行端車貸收支比精算系統</p>
     </div>
 
     <div class="form-group">
@@ -156,15 +153,15 @@
         <input type="number" id="downPayment" value="20">
     </div>
     <div class="form-group">
-        <label>年申報所得或實領月薪 (元)</label>
-        <input type="number" id="monthlyIncome" placeholder="影響銀行 DBR 判定">
+        <label>實領月收入 (元)</label>
+        <input type="number" id="monthlyIncome" placeholder="請輸入每月實領薪資">
     </div>
     <div class="form-group">
         <label>攤還期數</label>
         <select id="loanYears">
             <option value="5">60 期 (5年)</option>
             <option value="6">72 期 (6年)</option>
-            <option value="7" selected>84 期 (72年)</option>
+            <option value="7" selected>84 期 (7年)</option>
             <option value="8">96 期 (8年)</option>
         </select>
     </div>
@@ -173,28 +170,28 @@
         <select id="creditStatus">
             <option value="3.5">A 級 - 優質客群 (百大/公教)</option>
             <option value="5.5" selected>B 級 - 一般客群 (薪轉/勞保)</option>
-            <option value="8.5">C 級 - 特殊客群 (領現/瑕疵)</option>
+            <option value="8.5">C 級 - 特殊客群 (領現/小白)</option>
         </select>
     </div>
 
-    <button class="btn-calc" onclick="calculateLoan()">啟動精算模擬</button>
+    <button class="btn-calc" onclick="calculateLoan()">啟動數據模擬</button>
 
     <div id="result" class="result-card">
         <div id="badge" class="status-badge">ANALYSIS</div>
-        <div style="font-size: 11px; color: #666; letter-spacing: 1px;">ESTIMATED MONTHLY PAYMENT</div>
+        <div style="font-size: 11px; color: #adb5bd; font-weight: 700;">預估每月還款額</div>
         <div id="monthlyPay" class="price-display">$0</div>
         <div id="advisorNote" class="advisor-note"></div>
         
         <div class="contact-area">
             <a href="https://linktr.ee/maichezhaoan888" target="_blank" class="linktree-btn" onclick="gtag('event', 'click_consult');">
-                獲取精準過件方案
+                預約資質過件諮詢
             </a>
         </div>
 
         <div class="disclaimer-box">
             <strong>SYSTEM NOTICE:</strong><br>
-            • 本模擬器採用銀行端「收支比」邏輯。結果僅供初步評估，不代表銀行實際撥款意願。
-            • 實際利率、額度與開辦費須以撥款銀行最终審核為準。
+            • 本試算採用銀行收支比邏輯，結果僅供初步參考。<br>
+            • 實際利率、額度及過件與否，須以撥款銀行最終審核為主。
         </div>
     </div>
 </div>
@@ -207,7 +204,7 @@
         const years = parseInt(document.getElementById('loanYears').value);
         const annualRate = parseFloat(document.getElementById('creditStatus').value) / 100;
 
-        if (!price || !income) { alert('請輸入完整審核數據'); return; }
+        if (!price || !income) { alert('請填寫完整數據'); return; }
 
         const loanAmount = price - down;
         const monthlyRate = annualRate / 12;
@@ -222,14 +219,14 @@
         const note = document.getElementById('advisorNote');
 
         if (ratio <= 0.2) {
-            badge.innerText = "EXCELLENT / 金色推薦"; badge.style.background = "var(--premium-gold)"; badge.style.color = "black";
-            note.innerHTML = "數據表現極佳。屬銀行優先承作對象。建議聯繫<strong>專員</strong>解鎖專案利率。";
+            badge.innerText = "GOLD / 優質資質"; badge.style.background = "var(--accent-gold)";
+            note.innerHTML = "數據表現極佳。屬銀行優先承作對象。建議聯繫<strong>找安</strong>獲取專案最低利。";
         } else if (ratio <= 0.45) {
-            badge.innerText = "NORMAL / 綠色安全"; badge.style.background = "var(--safe-green)"; badge.style.color = "white";
+            badge.innerText = "SAFE / 綠色安全"; badge.style.background = "var(--safe-green)";
             note.innerHTML = "收支比處於穩定區間。請確保薪轉證明齊全，以利銀行加速審核進度。";
         } else {
-            badge.innerText = "RISK / 紅色警告"; badge.style.background = "var(--warn-red)"; badge.style.color = "white";
-            note.innerHTML = "負債佔比已達警戒水位。<strong>請勿隨意送審</strong>以免留下退件紀錄，請聯繫專員協助。";
+            badge.innerText = "RISK / 紅色警戒"; badge.style.background = "var(--warn-red)";
+            note.innerHTML = "負債佔比已達警戒水位。<strong>請勿盲目送審</strong>以免影響信用，請諮詢專業優化。";
         }
         document.getElementById('result').style.display = 'block';
     }
