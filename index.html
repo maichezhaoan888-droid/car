@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>繃安｜車貸資質精算系統 2.0</title>
+    <title>繃安｜銀行端貸款資質試算系統</title>
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TXBZ7MQTWE"></script>
     <script>
@@ -14,74 +14,187 @@
     </script>
 
     <style>
-        :root { --gold: #D4AF37; --green: #2E7D32; --red: #C62828; --dark-bg: #121212; --card-bg: #1E1E1E; }
-        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; background-color: var(--dark-bg); color: white; margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .container { max-width: 480px; width: 100%; background: var(--card-bg); padding: 30px; border-radius: 20px; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .header { text-align: center; margin-bottom: 25px; }
-        .header h1 { color: var(--gold); font-size: 24px; margin: 0; letter-spacing: 1px; }
-        label { display: block; margin-bottom: 8px; color: #BBB; font-size: 14px; }
-        input, select { width: 100%; padding: 14px; margin-bottom: 20px; background: #2D2D2D; border: 1px solid #444; color: white; border-radius: 10px; box-sizing: border-box; font-size: 16px; }
-        .btn-calc { width: 100%; padding: 16px; background: var(--gold); color: black; font-weight: bold; border: none; border-radius: 10px; cursor: pointer; font-size: 18px; transition: 0.3s; }
-        .btn-calc:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4); }
-        .result-card { display: none; margin-top: 30px; padding: 25px; border-radius: 15px; background: rgba(255,255,255,0.03); border: 1px solid #444; text-align: center; }
-        .status-badge { display: inline-block; padding: 6px 20px; border-radius: 50px; font-weight: bold; font-size: 14px; margin-bottom: 15px; }
-        .price-display { font-size: 38px; font-weight: bold; margin: 10px 0; }
-        .advisor-note { font-size: 15px; margin: 15px 0; line-height: 1.6; color: #EEE; }
-        .disclaimer-box { font-size: 11px; color: #777; margin-top: 15px; padding: 10px; border-top: 1px solid #333; line-height: 1.5; text-align: left; }
-        .contact-area { margin-top: 20px; text-align: center; }
-        .linktree-btn { display: block; background: linear-gradient(45deg, #00B900, #00E600); color: white; text-align: center; padding: 16px; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 16px; margin-top: 10px; }
+        :root { 
+            --premium-gold: #C5A059; 
+            --safe-green: #43A047; 
+            --warn-red: #E53935; 
+            --bg-deep: #0F0F0F; 
+            --card-surface: #1A1A1A;
+            --input-border: #333;
+        }
+        body { 
+            font-family: 'Inter', 'PingFang TC', 'Microsoft JhengHei', sans-serif; 
+            background-color: var(--bg-deep); 
+            color: #E0E0E0; 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            justify-content: center;
+            line-height: 1.6;
+        }
+        .container { 
+            max-width: 440px; 
+            width: 100%; 
+            background: var(--card-surface); 
+            padding: 40px 30px; 
+            border-radius: 24px; 
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8); 
+        }
+        .header { text-align: center; margin-bottom: 35px; }
+        .header h1 { 
+            color: var(--premium-gold); 
+            font-size: 22px; 
+            font-weight: 700;
+            margin: 0; 
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .header p { font-size: 12px; color: #666; margin-top: 8px; letter-spacing: 1px; }
+        
+        .form-group { margin-bottom: 20px; }
+        label { 
+            display: block; 
+            margin-bottom: 8px; 
+            color: #999; 
+            font-size: 13px; 
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        input, select { 
+            width: 100%; 
+            padding: 15px; 
+            background: #252525; 
+            border: 1px solid var(--input-border); 
+            color: white; 
+            border-radius: 12px; 
+            box-sizing: border-box; 
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+        input:focus { border-color: var(--premium-gold); outline: none; background: #2A2A2A; }
+        
+        .btn-calc { 
+            width: 100%; 
+            padding: 18px; 
+            background: linear-gradient(135deg, #C5A059 0%, #A67C37 100%);
+            color: #000; 
+            font-weight: 800; 
+            border: none; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            letter-spacing: 1px;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+        .btn-calc:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+        .result-card { 
+            display: none; 
+            margin-top: 30px; 
+            padding: 30px; 
+            border-radius: 16px; 
+            background: rgba(255,255,255,0.02); 
+            border: 1px solid #333; 
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .status-badge { 
+            display: inline-block; 
+            padding: 5px 25px; 
+            border-radius: 4px; 
+            font-weight: 800; 
+            font-size: 12px; 
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+        .price-display { font-size: 40px; font-weight: 800; margin: 5px 0; color: white; font-family: 'Arial', sans-serif; }
+        .advisor-note { font-size: 14px; margin: 20px 0; line-height: 1.8; color: #BBB; }
+        
+        .disclaimer-box { 
+            font-size: 10px; 
+            color: #555; 
+            margin-top: 25px; 
+            padding: 15px; 
+            border-top: 1px dotted #333; 
+            line-height: 1.6; 
+            text-align: left;
+        }
+        .linktree-btn { 
+            display: block; 
+            background: transparent; 
+            color: var(--premium-gold); 
+            text-align: center; 
+            padding: 15px; 
+            border-radius: 12px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 15px; 
+            border: 1px solid var(--premium-gold);
+            transition: 0.3s;
+        }
+        .linktree-btn:hover { background: var(--premium-gold); color: black; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <h1>繃安｜車貸資質精算系統</h1>
-        <p>專業數據審核・銀行端過件邏輯</p>
+        <h1>BENG AN ACTUARY</h1>
+        <p>銀行端車貸收支比模擬系統</p>
     </div>
 
-    <label>總車價 (萬元)</label>
-    <input type="number" id="totalPrice" placeholder="例如: 100">
-    <label>頭期款 (萬元)</label>
-    <input type="number" id="downPayment" value="20">
-    <label>您的月收入 (元)</label>
-    <input type="number" id="monthlyIncome" placeholder="影響銀行收支比判定">
+    <div class="form-group">
+        <label>車輛總價值 (萬)</label>
+        <input type="number" id="totalPrice" placeholder="請輸入欲購入車價">
+    </div>
+    <div class="form-group">
+        <label>預計首付款 (萬)</label>
+        <input type="number" id="downPayment" value="20">
+    </div>
+    <div class="form-group">
+        <label>年申報所得或實領月薪 (元)</label>
+        <input type="number" id="monthlyIncome" placeholder="影響銀行 DBR 判定">
+    </div>
+    <div class="form-group">
+        <label>攤還期數</label>
+        <select id="loanYears">
+            <option value="5">60 期 (5年)</option>
+            <option value="6">72 期 (6年)</option>
+            <option value="7" selected>84 期 (72年)</option>
+            <option value="8">96 期 (8年)</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>資質權重</label>
+        <select id="creditStatus">
+            <option value="3.5">A 級 - 優質客群 (百大/公教)</option>
+            <option value="5.5" selected>B 級 - 一般客群 (薪轉/勞保)</option>
+            <option value="8.5">C 級 - 特殊客群 (領現/瑕疵)</option>
+        </select>
+    </div>
 
-    <label>分期年限</label>
-    <select id="loanYears">
-        <option value="5">5年 (60期)</option>
-        <option value="6">6年 (72期)</option>
-        <option value="7" selected>7年 (84期)</option>
-        <option value="8">8年 (96期)</option>
-    </select>
-
-    <label>資質條件</label>
-    <select id="creditStatus">
-        <option value="3.5">優質資質 (軍警公教/百大/高薪) - 3.5%</option>
-        <option value="5.5" selected>一般資質 (薪轉勞保滿半年) - 5.5%</option>
-        <option value="8.5">特殊資質 (領現/小白/曾瑕疵) - 8.5%</option>
-    </select>
-
-    <button class="btn-calc" onclick="calculateLoan()">執行資質數據診斷</button>
+    <button class="btn-calc" onclick="calculateLoan()">啟動精算模擬</button>
 
     <div id="result" class="result-card">
-        <div id="badge" class="status-badge">診斷中</div>
-        <div style="font-size: 14px; color: #888;">預估每月還款額</div>
+        <div id="badge" class="status-badge">ANALYSIS</div>
+        <div style="font-size: 11px; color: #666; letter-spacing: 1px;">ESTIMATED MONTHLY PAYMENT</div>
         <div id="monthlyPay" class="price-display">$0</div>
         <div id="advisorNote" class="advisor-note"></div>
         
-        <div class="disclaimer-box">
-            <strong>【重要申明】</strong><br>
-            1. 本系統之利率、額度與試算結果僅供參考。<br>
-            2. 實際貸款條件須以各銀行最終審核、核貸結果及實際撥款情況為主。<br>
-            3. 銀行保有核貸與否及決定最終年利率之權利。
+        <div class="contact-area">
+            <a href="https://linktr.ee/maichezhaoan888" target="_blank" class="linktree-btn" onclick="gtag('event', 'click_consult');">
+                獲取精準過件方案
+            </a>
         </div>
 
-        <div class="contact-area">
-            <p style="font-size: 14px; color: var(--gold); margin-bottom: 5px;">想獲取精準過件方案？</p>
-            <a href="https://linktr.ee/maichezhaoan888" target="_blank" class="linktree-btn" onclick="gtag('event', 'click_consult');">
-                聯繫繃安｜專案協助
-            </a>
+        <div class="disclaimer-box">
+            <strong>SYSTEM NOTICE:</strong><br>
+            • 本模擬器採用銀行端「收支比」邏輯。結果僅供初步評估，不代表銀行實際撥款意願。
+            • 實際利率、額度與開辦費須以撥款銀行最终審核為準。
         </div>
     </div>
 </div>
@@ -94,7 +207,7 @@
         const years = parseInt(document.getElementById('loanYears').value);
         const annualRate = parseFloat(document.getElementById('creditStatus').value) / 100;
 
-        if (!price || !income) { alert('請輸入完整金額數據'); return; }
+        if (!price || !income) { alert('請輸入完整審核數據'); return; }
 
         const loanAmount = price - down;
         const monthlyRate = annualRate / 12;
@@ -109,14 +222,14 @@
         const note = document.getElementById('advisorNote');
 
         if (ratio <= 0.2) {
-            badge.innerText = "優質資質：金色推薦"; badge.style.background = "var(--gold)"; badge.style.color = "black";
-            note.innerHTML = "資質極佳！屬銀行優質客戶。建議直接聯繫繃安解鎖<strong>最低利金牌方案</strong>。";
+            badge.innerText = "EXCELLENT / 金色推薦"; badge.style.background = "var(--premium-gold)"; badge.style.color = "black";
+            note.innerHTML = "數據表現極佳。屬銀行優先承作對象。建議聯繫<strong>專員</strong>解鎖專案利率。";
         } else if (ratio <= 0.45) {
-            badge.innerText = "安全資質：綠色過件"; badge.style.background = "var(--green)"; badge.style.color = "white";
-            note.innerHTML = "收支比穩定。建議準備薪轉證明，點下方聯繫繃安<strong>確保 100% 過件</strong>。";
+            badge.innerText = "NORMAL / 綠色安全"; badge.style.background = "var(--safe-green)"; badge.style.color = "white";
+            note.innerHTML = "收支比處於穩定區間。請確保薪轉證明齊全，以利銀行加速審核進度。";
         } else {
-            badge.innerText = "資質警繃：紅色警戒"; badge.style.background = "var(--red)"; badge.style.color = "white";
-            note.innerHTML = "負債比偏高，銀行核貸難度大。請立即尋求<strong>專業資質優化</strong>。";
+            badge.innerText = "RISK / 紅色警告"; badge.style.background = "var(--warn-red)"; badge.style.color = "white";
+            note.innerHTML = "負債佔比已達警戒水位。<strong>請勿隨意送審</strong>以免留下退件紀錄，請聯繫專員協助。";
         }
         document.getElementById('result').style.display = 'block';
     }
