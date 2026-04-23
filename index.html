@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>買車找安｜車貸試算系統</title>
-
+    <title>買車找安｜車貸初算機</title>
+    
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TXBZ7MQTWE"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -14,103 +16,33 @@
     </script>
 
     <style>
-        :root { 
-            --accent-gold: #B8860B; 
-            --safe-green: #2E7D32; 
-            --warn-red: #D32F2F; 
-            --bg-light: #F2F4F7; 
-            --card-white: #FFFFFF; 
-        }
-        body { 
-            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; 
-            background-color: var(--bg-light); 
-            color: #333; 
-            margin: 0; 
-            padding: 20px; 
-            display: flex; 
-            justify-content: center;
-        }
-        .container { 
-            max-width: 440px; 
-            width: 100%; 
-            background: var(--card-white); 
-            padding: 35px 25px; 
-            border-radius: 20px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.08); 
-            border: 1px solid #E1E4E8;
-        }
+        :root { --accent-gold: #B8860B; --safe-green: #2E7D32; --warn-red: #D32F2F; --bg-light: #F2F4F7; --card-white: #FFFFFF; }
+        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; background-color: var(--bg-light); color: #333; margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .container { max-width: 440px; width: 100%; background: var(--card-white); padding: 35px 25px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.08); border: 1px solid #E1E4E8; }
         .header { text-align: center; margin-bottom: 30px; border-bottom: 2.5px solid var(--accent-gold); padding-bottom: 15px; }
         .header h1 { color: #1A1A1A; font-size: 26px; font-weight: 900; margin: 0; }
         .header p { font-size: 13px; color: #777; margin-top: 5px; font-weight: bold; }
         
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; color: #1A1A1A; font-size: 15px; font-weight: 700; }
-        input, select { 
-            width: 100%; 
-            padding: 14px; 
-            background: #FFF; 
-            border: 1px solid #D1D5DB; 
-            color: #333; 
-            border-radius: 10px; 
-            box-sizing: border-box; 
-            font-size: 16px;
-        }
-        input:focus { border-color: var(--accent-gold); outline: none; box-shadow: 0 0 0 3px rgba(184,134,11,0.1); }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 6px; color: #1A1A1A; font-size: 14px; font-weight: 700; }
+        input, select { width: 100%; padding: 12px; background: #FFF; border: 1px solid #D1D5DB; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
         
-        .btn-calc { 
-            width: 100%; 
-            padding: 18px; 
-            background: #1A1A1A;
-            color: #FFF; 
-            font-weight: 800; 
-            border: none; 
-            border-radius: 12px; 
-            cursor: pointer; 
-            font-size: 18px; 
-            margin-top: 10px;
-            transition: 0.3s;
-        }
-        .btn-calc:hover { background: #000; transform: translateY(-1px); }
+        .btn-calc { width: 100%; padding: 18px; background: #1A1A1A; color: #FFF; font-weight: 800; border: none; border-radius: 10px; cursor: pointer; font-size: 18px; margin-top: 10px; }
 
-        .result-card { 
-            display: none; 
-            margin-top: 30px; 
-            padding: 25px; 
-            border-radius: 15px; 
-            background: #F8F9FA; 
-            border: 1px solid #E9ECEF;
-            text-align: center;
-        }
+        /* 結果顯示區塊 */
+        .result-card { display: none; margin-top: 25px; padding: 25px; border-radius: 15px; background: #FFFFFF; border: 2px solid #EEE; text-align: center; position: relative; }
+        .report-brand { font-size: 12px; color: #B8860B; font-weight: 900; margin-bottom: 10px; display: block; }
         .status-badge { display: inline-block; padding: 5px 20px; border-radius: 6px; font-weight: 900; font-size: 13px; margin-bottom: 15px; color: #FFF; }
-        .price-display { font-size: 45px; font-weight: 900; margin: 5px 0; color: #1A1A1A; }
-        .advisor-note { font-size: 15px; margin: 15px 0; line-height: 1.8; color: #444; }
+        .price-display { font-size: 40px; font-weight: 900; margin: 5px 0; color: #1A1A1A; }
+        .advisor-note { font-size: 14px; margin: 15px 0; line-height: 1.6; color: #444; }
         
-        .contact-area { margin-top: 10px; }
-        .contact-label { font-size: 13px; color: #B8860B; font-weight: bold; margin-bottom: 8px; }
-        .linktree-btn { 
-            display: block; 
-            background: #FFFFFF; 
-            color: #1A1A1A; 
-            text-align: center; 
-            padding: 15px; 
-            border-radius: 10px; 
-            text-decoration: none; 
-            font-weight: 800; 
-            font-size: 16px; 
-            border: 2px solid #1A1A1A;
-            transition: 0.3s;
-        }
-        .linktree-btn:hover { background: #1A1A1A; color: #FFF; }
-
-        .disclaimer-box { 
-            font-size: 11px; 
-            color: #999; 
-            margin-top: 25px; 
-            padding-top: 15px; 
-            border-top: 1px solid #EEE; 
-            text-align: left; 
-            line-height: 1.6;
-        }
+        /* 動作按鈕區 */
+        .action-group { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+        .download-btn { background: #F8F9FA; color: #555; border: 1px solid #DDD; padding: 12px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 14px; }
+        .linktree-btn { display: block; background: #1A1A1A; color: #FFFFFF; text-align: center; padding: 16px; border-radius: 10px; text-decoration: none; font-weight: 800; font-size: 16px; transition: 0.3s; }
+        .linktree-btn:hover { background: #000; }
+        
+        .disclaimer-box { font-size: 10px; color: #999; margin-top: 20px; border-top: 1px solid #EEE; padding-top: 10px; text-align: left; }
     </style>
 </head>
 <body>
@@ -118,23 +50,23 @@
 <div class="container">
     <div class="header">
         <h1>買車找安</h1>
-        <p>車貸收支比試算系統</p>
+        <p>車貸初算與收支比診斷系統</p>
     </div>
 
     <div class="form-group">
-        <label>車輛總價值 (萬)</label>
-        <input type="number" id="totalPrice" placeholder="輸入預計購入車價">
+        <label>購車總車價 (萬)</label>
+        <input type="number" id="totalPrice" placeholder="請輸入欲購買之車價">
     </div>
     <div class="form-group">
-        <label>預計首付款 (萬)</label>
+        <label>首期投入資金 (萬)</label>
         <input type="number" id="downPayment" value="20">
     </div>
     <div class="form-group">
         <label>實領月收入 (元)</label>
-        <input type="number" id="monthlyIncome" placeholder="輸入每月薪資收入">
+        <input type="number" id="monthlyIncome" placeholder="請輸入每月固定收入">
     </div>
     <div class="form-group">
-        <label>攤還期數</label>
+        <label>車貸年限</label>
         <select id="loanYears">
             <option value="5">60 期 (5年)</option>
             <option value="6">72 期 (6年)</option>
@@ -143,33 +75,33 @@
         </select>
     </div>
     <div class="form-group">
-        <label>資質權重</label>
+        <label>資質利率權重</label>
         <select id="creditStatus">
-            <option value="3.5">A 級 - 優質客群 (百大/公教)</option>
-            <option value="5.5" selected>B 級 - 一般客群 (薪轉/勞保)</option>
-            <option value="8.5">C 級 - 特殊客群 (領現/小白)</option>
+            <option value="3.5">優質資質 (軍警公教/百大/高薪) - 3.5%</option>
+            <option value="5.5" selected>一般資質 (薪轉勞保滿半年) - 5.5%</option>
+            <option value="8.5">特殊資質 (領現/小白/曾瑕疵) - 8.5%</option>
         </select>
     </div>
 
-    <button class="btn-calc" onclick="calculateLoan()">啟動數據模擬</button>
+    <button class="btn-calc" onclick="calculateLoan()">啟動數據模擬演算</button>
 
-    <div id="result" class="result-card">
-        <div id="badge" class="status-badge">ANALYSIS</div>
-        <div style="font-size: 11px; color: #999; font-weight: bold; letter-spacing: 1px;">預估每月還款額</div>
+    <div id="captureArea" class="result-card">
+        <span class="report-brand">買車找安｜車貸初算機</span>
+        <div id="badge" class="status-badge">DIAGNOSIS</div>
+        <div style="font-size: 11px; color: #999; font-weight: bold;">預估每月車貸攤還</div>
         <div id="monthlyPay" class="price-display">$0</div>
         <div id="advisorNote" class="advisor-note"></div>
-        
-        <div class="contact-area">
-            <div class="contact-label">⚠️ 試算結果不代表最終核貸利率</div>
-            <a href="https://linktr.ee/maichezhaoan888" target="_blank" class="linktree-btn" onclick="gtag('event', 'click_consult');">
-                立即預約1 對 1 數據校準諮詢
-            </a>
-        </div>
+        <div id="reportTime" style="font-size: 9px; color: #CCC; margin-top: 10px;"></div>
+    </div>
 
+    <div id="actionGroup" class="action-group" style="display:none;">
+        <button class="download-btn" onclick="downloadReport()">📸 下載結果並回傳</button>
+        <a href="https://linktr.ee/maichezhaoan888" target="_blank" class="linktree-btn" onclick="gtag('event', 'click_consult');">
+            把初算結果告訴繃安
+        </a>
         <div class="disclaimer-box">
-            <strong>SYSTEM NOTICE:</strong><br>
-            • 本系統採用銀行收支比邏輯，結果僅供初步參考。<br>
-            • 實際貸款利率、額度及過件與否，須以撥款銀行最終審核及實領情況為主。
+            • ⚠️ 本試算採用顧問演算公式，僅供購車規劃參考。<br>
+            • 實際貸款利率、額度及最終結果，須以實際數據複核為主。
         </div>
     </div>
 </div>
@@ -182,7 +114,7 @@
         const years = parseInt(document.getElementById('loanYears').value);
         const annualRate = parseFloat(document.getElementById('creditStatus').value) / 100;
 
-        if (!price || !income) { alert('請輸入完整數據'); return; }
+        if (!price || !income) { alert('請輸入完整數據以利診斷'); return; }
 
         const loanAmount = price - down;
         const monthlyRate = annualRate / 12;
@@ -191,6 +123,7 @@
         const ratio = monthlyPay / income;
 
         document.getElementById('monthlyPay').innerText = '$' + monthlyPay.toLocaleString();
+        document.getElementById('reportTime').innerText = "演算生成時間：" + new Date().toLocaleString();
         gtag('event', 'calculate_loan', { 'value': price/10000, 'loan_ratio': ratio.toFixed(2) });
 
         const badge = document.getElementById('badge');
@@ -198,15 +131,28 @@
 
         if (ratio <= 0.2) {
             badge.innerText = "GOLD / 優質資質"; badge.style.background = "var(--accent-gold)";
-            note.innerHTML = "數據表現極佳。屬銀行優先承作對象。建議聯繫<strong>繃安</strong>進行專案數據複核。";
+            note.innerHTML = "數據表現極佳。建議下載結果並告知<strong>繃安</strong>，進行更深入的方案複核。";
         } else if (ratio <= 0.45) {
             badge.innerText = "SAFE / 綠色安全"; badge.style.background = "var(--safe-green)";
-            note.innerHTML = "收支比處於穩定區間。建議進一步諮詢以確認最精準之核貸利率。";
+            note.innerHTML = "收支比處於穩定區間。請將結果回傳，以確認目前最精準的利率配置。";
         } else {
             badge.innerText = "RISK / 紅色警戒"; badge.style.background = "var(--warn-red)";
-            note.innerHTML = "負債佔比已達警戒水位。<strong>請勿貿動以免影響信用</strong>，請先聯繫諮詢優化方案。";
+            note.innerHTML = "資質佔比較高。建議將結果回傳諮詢，由專業端協助優化各項數據權重。";
         }
-        document.getElementById('result').style.display = 'block';
+        
+        document.getElementById('captureArea').style.display = 'block';
+        document.getElementById('actionGroup').style.display = 'flex';
+    }
+
+    function downloadReport() {
+        const element = document.getElementById('captureArea');
+        html2canvas(element, { backgroundColor: "#F2F4F7", scale: 2 }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = '買車找安-車貸初算結果.png';
+            link.href = canvas.toDataURL();
+            link.click();
+            gtag('event', 'download_report');
+        });
     }
 </script>
 </body>
